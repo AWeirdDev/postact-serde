@@ -11,3 +11,4 @@ export {
   MetaType,
   isMeta,
 } from "./structure";
+export { validatePrimitive, validatePrimitiveOrThrow } from "./validate";

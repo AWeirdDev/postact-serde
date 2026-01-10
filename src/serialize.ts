@@ -3,6 +3,7 @@ import {
   isMeta,
   MetaType,
   Primitive,
+  validatePrimitiveOrThrow,
   type Complex,
   type Enum,
   type FixedSizeString,
@@ -10,8 +11,6 @@ import {
   type Schema,
   type Vector,
 } from "./schema";
-
-import { validatePrimitiveOrThrow } from "./schema/validate";
 
 export function serializeInto(chunks: ChunksWriter, schema: Schema, data: any) {
   if (isMeta(schema)) {
