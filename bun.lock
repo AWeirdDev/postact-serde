@@ -4,6 +4,9 @@
   "workspaces": {
     "": {
       "name": "@postact/serde",
+      "dependencies": {
+        "@postact/core": "^0.0.8",
+      },
       "devDependencies": {
         "@types/bun": "latest",
         "rolldown": "^1.0.0-beta.59",
@@ -23,6 +26,8 @@
     "@napi-rs/wasm-runtime": ["@napi-rs/wasm-runtime@1.1.1", "", { "dependencies": { "@emnapi/core": "^1.7.1", "@emnapi/runtime": "^1.7.1", "@tybys/wasm-util": "^0.10.1" } }, "sha512-p64ah1M1ld8xjWv3qbvFwHiFVWrq1yFvV4f7w+mzaqiR4IlSgkqhcRdHwsGgomwzBH51sRY4NEowLxnaBjcW/A=="],
 
     "@oxc-project/types": ["@oxc-project/types@0.107.0", "", {}, "sha512-QFDRbYfV2LVx8tyqtyiah3jQPUj1mK2+RYwxyFWyGoys6XJnwTdlzO6rdNNHOPorHAu5Uo34oWRKcvNpbJarmQ=="],
+
+    "@postact/core": ["@postact/core@0.0.8", "", { "peerDependencies": { "typescript": "^5.9.3" } }, "sha512-vInWpda+PBrGxZKyfoNQY+iGwvp9JDbwWuSv9gietwR9mgaPz89MnloVoZuV6IigaBD/vq6cky9HphhqErOlJA=="],
 
     "@rolldown/binding-android-arm64": ["@rolldown/binding-android-arm64@1.0.0-beta.59", "", { "os": "android", "cpu": "arm64" }, "sha512-6yLLgyswYwiCfls9+hoNFY9F8TQdwo15hpXDHzlAR0X/GojeKF+AuNcXjYNbOJ4zjl/5D6lliE8CbpB5t1OWIQ=="],
 

@@ -1,3 +1,12 @@
-import { vector, optional, Primitive } from "./src/schema";
+import { t } from "./src";
 
-const sch = optional(vector([Primitive.String, Primitive.Boolean]));
+const User = t.object({
+  name: t.string(),
+  age: t.number(),
+});
+type User = t.infer<typeof User>;
+
+const user = {
+  name: "Walt",
+  age: 100,
+} satisfies User;

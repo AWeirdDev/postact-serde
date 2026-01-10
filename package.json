@@ -13,7 +13,12 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "type": "module",
-  "dependencies": {},
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@postact/core": "^0.0.8"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "rolldown": "^1.0.0-beta.59"

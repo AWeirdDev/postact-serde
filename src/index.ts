@@ -1,2 +1,1 @@
-import * as schema from "./schema";
-export { schema };
+export { t } from "./schema";
