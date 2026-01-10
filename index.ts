@@ -1,14 +1,11 @@
 import { serialize, t } from "./src";
+import { deserialize } from "./src/deserialize";
 
-const User = t.object({
-  name: t.string(),
-  age: t.int(),
-});
-type User = t.infer<typeof User>;
+const Name = t.string();
+type Name = t.infer<typeof Name>;
 
-const user = {
-  name: "a",
-  age: 12,
-} satisfies User;
-
-console.log(serialize(User, user));
+const name = "hello" satisfies Name;
+const buf = new ArrayBuffer(8);
+const arr = new DataView(buf);
+arr.setUint8(0, 0);
+console.log(deserialize(Name, buf));

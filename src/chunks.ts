@@ -96,3 +96,66 @@ export class ChunksWriter {
     return this.#buf;
   }
 }
+
+export class ChunksReader {
+  readonly #buf: ArrayBuffer;
+  readonly #view: DataView;
+  readonly #arr: Uint8Array;
+
+  #offset: number;
+
+  constructor(buf: ArrayBuffer) {
+    this.#buf = buf;
+    this.#view = new DataView(this.#buf);
+    this.#arr = new Uint8Array(this.#buf);
+    this.#offset = 0;
+  }
+
+  readU8(): number {
+    const d = this.#view.getUint8(this.#offset);
+    this.#offset += 1;
+    return d;
+  }
+
+  readU32(): number {
+    const d = this.#view.getUint32(this.#offset);
+    this.#offset += 4;
+    return d;
+  }
+
+  readI32(): number {
+    const d = this.#view.getInt32(this.#offset);
+    this.#offset += 4;
+    return d;
+  }
+
+  readI64(): bigint {
+    const d = this.#view.getBigInt64(this.#offset);
+    this.#offset += 8;
+    return d;
+  }
+
+  readF32(): number {
+    const d = this.#view.getFloat32(this.#offset);
+    this.#offset += 4;
+    return d;
+  }
+
+  readF64(): number {
+    const d = this.#view.getFloat64(this.#offset);
+    this.#offset += 8;
+    return d;
+  }
+
+  getString(): string {
+    const length = this.readU32();
+    return this.getFixedString(length);
+  }
+
+  getFixedString(length: number): string {
+    const decoder = new TextDecoder();
+    const text = decoder.decode(this.#arr.subarray(this.#offset, length));
+    this.#offset += length;
+    return text;
+  }
+}

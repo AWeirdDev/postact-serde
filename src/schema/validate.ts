@@ -16,9 +16,10 @@ export function validatePrimitive(expected: Primitive, data: any): boolean {
   }
 }
 
-export function validatePrimitiveOrThrow(expected: Primitive, data: any) {
+export function validatePrimitiveOrThrow(expected: Primitive, data: any): any {
   if (!validatePrimitive(expected, data))
     throw new TypeError(
       `expected type ${Primitive[expected]}, got: ${typeof data}. contents:\n${data}`,
     );
+  return data;
 }

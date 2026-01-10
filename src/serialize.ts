@@ -30,9 +30,12 @@ export function serializeInto(chunks: ChunksWriter, schema: Schema, data: any) {
         break;
       case MetaType.FixedSizeString:
         validatePrimitiveOrThrow(Primitive.String, data);
-        if ((data as string).length !== (schema as FixedSizeString).d)
+
+        const encoder = new TextEncoder();
+        const inputLength = encoder.encode(data as string).length;
+        if (inputLength !== (schema as FixedSizeString).d)
           throw new TypeError(
-            `expected a fixed size string of length ${schema.d}, got length ${data.length}`,
+            `expected a fixed size (utf-8 encoded) string of length ${schema.d}, got length ${inputLength}`,
           );
         chunks.placeFixedString(data as string);
         break;
