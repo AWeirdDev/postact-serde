@@ -12,10 +12,13 @@ export enum MetaType {
   Vector = 1,
   Complex = 2,
   FixedSizeString = 3,
+  Enum = 4,
 }
 
 export type Vector = Meta<MetaType.Vector, Schema>;
 export type Complex = Meta<MetaType.Complex, Map<string, Schema>>;
 export type Optional = Meta<MetaType.Optional, Schema>;
+export type FixedSizeString = Meta<MetaType.FixedSizeString, number>;
+export type Enum = Meta<MetaType.Enum, string[]>;
 
 export type Schema = Primitive | Meta<MetaType, any>;
