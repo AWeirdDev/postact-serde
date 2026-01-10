@@ -15,6 +15,10 @@ export enum MetaType {
   Enum = 4,
 }
 
+export function isMeta(obj: any): obj is Meta<any, any> {
+  return Object.hasOwn(obj, "t");
+}
+
 export type Vector = Meta<MetaType.Vector, Schema>;
 export type Complex = Meta<MetaType.Complex, Map<string, Schema>>;
 export type Optional = Meta<MetaType.Optional, Schema>;

@@ -7,10 +7,13 @@ interface OfType<T> {
 type SchemaOfType<T> = Schema & OfType<T>;
 
 type Infer<T extends SchemaOfType<any>> = T["_type"];
-export type infer<T extends SchemaOfType<any>> = T["_type"];
 
-function number_(): SchemaOfType<number> {
+function int_(): SchemaOfType<number> {
   return Primitive.Int32 satisfies Schema as any;
+}
+
+function float_(): SchemaOfType<number> {
+  return Primitive.Float64 satisfies Schema as any;
 }
 
 function bigint_(): SchemaOfType<bigint> {
@@ -53,9 +56,11 @@ function enum_<const T extends readonly string[]>(
 export {
   object,
   array,
-  number_ as "number",
+  int_ as "int",
+  float_ as "float",
   bigint_ as "bigint",
   string_ as "string",
   boolean_ as "boolean",
   enum_ as "enum",
 };
+export type { Infer as "infer" };

@@ -1,14 +1,14 @@
-import { t } from "./src";
+import { serialize, t } from "./src";
 
 const User = t.object({
   name: t.string(),
-  age: t.number(),
-  schedule: t.enum(["happy", "sad"]),
+  age: t.int(),
 });
 type User = t.infer<typeof User>;
 
 const user = {
-  name: "Walt",
-  age: 100,
-  schedule: "sad",
+  name: "a",
+  age: 12,
 } satisfies User;
+
+console.log(serialize(User, user));
