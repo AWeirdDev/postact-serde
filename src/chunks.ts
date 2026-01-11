@@ -118,31 +118,31 @@ export class ChunksReader {
   }
 
   readU32(): number {
-    const d = this.#view.getUint32(this.#offset);
+    const d = this.#view.getUint32(this.#offset, true);
     this.#offset += 4;
     return d;
   }
 
   readI32(): number {
-    const d = this.#view.getInt32(this.#offset);
+    const d = this.#view.getInt32(this.#offset, true);
     this.#offset += 4;
     return d;
   }
 
   readI64(): bigint {
-    const d = this.#view.getBigInt64(this.#offset);
+    const d = this.#view.getBigInt64(this.#offset, true);
     this.#offset += 8;
     return d;
   }
 
   readF32(): number {
-    const d = this.#view.getFloat32(this.#offset);
+    const d = this.#view.getFloat32(this.#offset, true);
     this.#offset += 4;
     return d;
   }
 
   readF64(): number {
-    const d = this.#view.getFloat64(this.#offset);
+    const d = this.#view.getFloat64(this.#offset, true);
     this.#offset += 8;
     return d;
   }
@@ -154,7 +154,9 @@ export class ChunksReader {
 
   getFixedString(length: number): string {
     const decoder = new TextDecoder();
-    const text = decoder.decode(this.#arr.subarray(this.#offset, length));
+    const text = decoder.decode(
+      this.#arr.subarray(this.#offset, this.#offset + length),
+    );
     this.#offset += length;
     return text;
   }

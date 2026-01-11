@@ -1,6 +1,17 @@
-import { Primitive } from "./structure";
+import {
+  isMeta,
+  MetaType,
+  Primitive,
+  type Complex,
+  type Enum,
+  type FixedSizeString,
+  type Meta,
+  type Schema,
+  type Vector,
+} from "./structure";
 
 export function validatePrimitive(expected: Primitive, data: any): boolean {
+  console.log("validate primitive");
   switch (expected) {
     case Primitive.BigInt64:
       return typeof data === "bigint";
@@ -19,7 +30,67 @@ export function validatePrimitive(expected: Primitive, data: any): boolean {
 export function validatePrimitiveOrThrow(expected: Primitive, data: any): any {
   if (!validatePrimitive(expected, data))
     throw new TypeError(
-      `expected type ${Primitive[expected]}, got: ${typeof data}. contents:\n${data}`,
+      `expected type ${Primitive[expected]}, got: ${typeof data}. contents: ${data}`,
+    );
+  return data;
+}
+
+export function validateMeta(
+  expected: Meta<MetaType, any>,
+  data: any,
+): boolean {
+  console.log("validate meta");
+  switch (expected.t) {
+    case MetaType.Complex:
+      return (expected as Complex).d.every(([key, s]) =>
+        validateSchema(s.s, data[key]),
+      );
+
+    case MetaType.Enum:
+      if (!validatePrimitive(Primitive.String, data)) return false;
+      return (expected as Enum).d.includes(data);
+
+    case MetaType.FixedSizeString:
+      if (!validatePrimitive(Primitive.String, data)) return false;
+      const encoder = new TextEncoder();
+      const inputLength = encoder.encode(data as string).length;
+      return inputLength !== (expected as FixedSizeString).d;
+
+    case MetaType.Optional:
+      if (typeof data === "undefined" || data === null) return true;
+      return validateSchema(expected.d, data);
+
+    case MetaType.Vector:
+      if (!Array.isArray(data)) return false;
+      return (data as any[]).every((item) =>
+        validateSchema((expected as Vector).d, item),
+      );
+  }
+}
+
+export function validateMetaOrThrow(
+  expected: Meta<MetaType, any>,
+  data: any,
+): any {
+  if (!validateSchema(expected, data))
+    throw new TypeError(
+      `expected type ${JSON.stringify(expected)}, got: ${typeof data}. contents: ${data}`,
+    );
+  return data;
+}
+
+export function validateSchema(expected: Schema, data: any): boolean {
+  if (isMeta(expected)) {
+    return validateMeta(expected, data);
+  } else {
+    return validatePrimitive(expected, data);
+  }
+}
+
+export function validateSchemaOrThrow(expected: Schema, data: any): any {
+  if (!validateSchema(expected, data))
+    throw new TypeError(
+      `expected type ${JSON.stringify(expected)}, got: ${typeof data}. contents: ${data}`,
     );
   return data;
 }

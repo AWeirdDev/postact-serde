@@ -20,7 +20,10 @@ export function isMeta(obj: any): obj is Meta<any, any> {
 }
 
 export type Vector = Meta<MetaType.Vector, Schema>;
-export type Complex = Meta<MetaType.Complex, Map<string, Schema>>;
+
+export type ComplexField = Readonly<{ n: number; s: Schema }>;
+export type Complex = Meta<MetaType.Complex, [string, ComplexField][]>;
+
 export type Optional = Meta<MetaType.Optional, Schema>;
 export type FixedSizeString = Meta<MetaType.FixedSizeString, number>;
 export type Enum = Meta<MetaType.Enum, string[]>;

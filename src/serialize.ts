@@ -16,9 +16,9 @@ export function serializeInto(chunks: ChunksWriter, schema: Schema, data: any) {
   if (isMeta(schema)) {
     switch (schema.t) {
       case MetaType.Complex:
-        (schema as Complex).d.entries().forEach(([k, s]) => {
-          serializeInto(chunks, s, data[k]);
-        });
+        for (const [k, s] of (schema as Complex).d) {
+          serializeInto(chunks, s.s, data[k]);
+        }
         break;
       case MetaType.Enum:
         validatePrimitiveOrThrow(Primitive.String, data);
@@ -30,7 +30,6 @@ export function serializeInto(chunks: ChunksWriter, schema: Schema, data: any) {
         break;
       case MetaType.FixedSizeString:
         validatePrimitiveOrThrow(Primitive.String, data);
-
         const encoder = new TextEncoder();
         const inputLength = encoder.encode(data as string).length;
         if (inputLength !== (schema as FixedSizeString).d)
