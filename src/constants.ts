@@ -10,4 +10,7 @@ class Shell<T> {
   }
 }
 
-export const MAX_RECURSION_DEPTH: Shell<number> = new Shell(100);
+/**
+ * The maximum recursion depth. Defaults to 200.
+ */
+export const MAX_RECURSION_DEPTH: Shell<number> = new Shell(200);

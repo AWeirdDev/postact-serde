@@ -1,4 +1,5 @@
 import { ChunksReader } from "./chunks";
+import { MAX_RECURSION_DEPTH } from "./constants";
 import {
   isMeta,
   MetaType,
@@ -16,6 +17,9 @@ export function deserializeFrom(
   chunks: ChunksReader,
   depth: number = 0,
 ): any {
+  if (depth > MAX_RECURSION_DEPTH.value)
+    throw new Error(`max recursion depth reached: ${MAX_RECURSION_DEPTH}`);
+
   if (isMeta(schema)) {
     switch (schema.t) {
       case MetaType.Complex:
